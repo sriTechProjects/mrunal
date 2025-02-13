@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Mrunal!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            animation: fadeIn 2s ease-in-out;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .message {
+            font-size: 1.2rem;
+            margin: 15px;
+            max-width: 90%;
+            animation: fadeIn 3s ease-in-out;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .floating-img {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0.6;
+            border: 3px solid #fff;
+            z-index: 1;
+            /* filter: blur(3px); */
+        }
+        .play-button {
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+        .play-button:hover {
+            background: #e91e63;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday, Mrunal! 🎉</h1>
+        <p class="message" id="message">Wishing you an amazing year ahead! ✨</p>
+        <button class="play-button" onclick="playAudio()">Play Music 🎵</button>
+        <audio id="birthday-audio" src="mrunal.mp3"></audio>
+    </div>
+    
+    <script>
+        const images = [
+            "mrunal1.jpg", "mrunal2.jpg", "mrunal3.jpg", "mrunal4.jpg", "mrunal5.jpg", "mrunal6.jpg", "mrunal7.jpg", "mrunal8.jpg", "mrunal9.jpg"
+        ];
+        
+        function createFloatingImage(src) {
+            let img = document.createElement("img");
+            img.src = src;
+            img.className = "floating-img";
+            img.style.bottom = "-100px";
+            img.style.left = Math.random() * 80 + "vw";
+            document.body.appendChild(img);
+            
+            gsap.to(img, {
+                opacity: 0.8,
+                duration: 2,
+                y: "-60vh",
+                ease: "power1.out",
+                onComplete: () => {
+                    gsap.to(img, {
+                        y: "-90vh",
+                        duration: 2,
+                        ease: "power1.out",
+                        onComplete: () => {
+                            setTimeout(() => {
+                                gsap.to(img, {
+                                    opacity: 0,
+                                    duration: 1,
+                                    onComplete: () => img.remove()
+                                });
+                            }, 3000);
+                        }
+                    });
+                }
+            });
+        }
+        
+        function startFloatingImages() {
+            setInterval(() => {
+                let randomImage = images[Math.floor(Math.random() * images.length)];
+                createFloatingImage(randomImage);
+            }, 3000);
+        }
+        
+        startFloatingImages();
+
+        const messages = [
+            "🎈 May your day be filled with love, laughter, and joy! 💖",
+            "🌸 You are special, and today is all about celebrating YOU! 😊",
+            "🎊 May this year bring you success and beautiful memories! 🌟",
+            "💫 Keep shining and smiling always, because you deserve the best! 💕",
+            "🎶 May your heart always dance to the rhythm of joy! 💃🕺",
+            "🌠 Sending you wishes as bright as the stars above! ✨",
+            "💖 Your kindness and warmth make the world a better place! 🌍",
+            "🎁 May today bring you gifts of love, laughter, and happiness! 🎀",
+            "🌞 Wishing you a day as wonderful and radiant as you are! ☀️"
+            
+        ];
+        let messageIndex = 0;
+        function changeMessage() {
+            document.getElementById("message").textContent = messages[messageIndex];
+            messageIndex = (messageIndex + 1) % messages.length;
+        }
+        setInterval(changeMessage, 3000);
+
+        function playAudio() {
+            document.getElementById("birthday-audio").play();
+        }
+    </script>
+</body>
+</html>
